@@ -5252,6 +5252,10 @@ class MongoDBAdapter(NoSQLAdapter):
         self.object_id("<random>") -> ObjectId (not unique) instance """
         if not arg:
             arg = 0
+
+        if callable(arg):
+            return self.object_id(arg())
+            
         if isinstance(arg, basestring):
             # we assume an integer as default input
             rawhex = len(arg.replace("0x", "").replace("L", "")) == 24
